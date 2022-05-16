@@ -7,7 +7,7 @@ describe("USElection", function () {
     let addr1;
     before(async () => {
         usElectionFactory = await ethers.getContractFactory("USElection");
-        const [owner, addr1] = await ethers.getSigners();
+        [owner, addr1] = await ethers.getSigners();
         usElection = await usElectionFactory.deploy();
         await usElection.deployed();
         await usElection.connect(addr1).electionEnded();

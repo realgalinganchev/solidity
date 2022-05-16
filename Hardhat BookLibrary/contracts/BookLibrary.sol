@@ -21,14 +21,14 @@ contract BookLibrary is Ownable {
         _;
     }
 
-    function _generateIdFromTitle(string memory _title) private pure returns (uint) {
+    function generateIdFromTitle(string memory _title) public pure returns (uint) {
         uint id = uint(keccak256(abi.encodePacked(_title)));
         return id;
     }
 
     function addNewBookAndCopiesCount(string memory _title, uint _copies) public onlyOwner {
         require(_copies > 0, "You have to add at least one copy of the book in the library!");
-        uint bookId = _generateIdFromTitle(_title);
+        uint bookId = generateIdFromTitle(_title);
         bookIds.push(bookId);
         Library[bookId] = Book(_title, _copies);
     }
@@ -37,7 +37,7 @@ contract BookLibrary is Ownable {
         require(!hasCurrentlyBorrowed[msg.sender][_bookId], "You have already borrowed a copy of the book, please return it first!");
         hasCurrentlyBorrowed[msg.sender][_bookId] = true;
         Library[_bookId].copiesCount--;
-        require(!hasAlreadyBorrowedOnce[msg.sender][_bookId]);
+        //require(!hasAlreadyBorrowedOnce[msg.sender][_bookId]);
         borrowersAddresses[_bookId].push(msg.sender);
         hasAlreadyBorrowedOnce[msg.sender][_bookId] = true;
     }
