@@ -14,6 +14,12 @@ async function deployBookLibraryContract() {
     await bookLibraryContract.deployed();
 
     console.log('BookLibrary Contract address: ', bookLibraryContract.address);
+    await hre.run("verify:verify", {
+        address: bookLibraryContract.address,
+        constructorArguments: [
+         // if any
+        ],
+    });
     console.log('Done!');
 }
   
