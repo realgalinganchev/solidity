@@ -13,12 +13,12 @@ async function deployBookLibraryContract(_privateKey) {
     await bookLibraryContract.deployed();
 
     console.log('BookLibrary Contract address: ', bookLibraryContract.address);
-    await hre.run("verify:verify", {
-        address: bookLibraryContract.address,
-        constructorArguments: [
-         // if any
-        ],
-    });
+    // await hre.run("verify:verify", {
+    //     address: bookLibraryContract.address,
+    //     constructorArguments: [
+    //      // if any
+    //     ],
+    // });
 }
   
 module.exports = deployBookLibraryContract;

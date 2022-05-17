@@ -1,7 +1,9 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
 require("solidity-coverage");
-require('dotenv').config()
+const dotenv = require("dotenv");
+dotenv.config({path: __dirname + '/.env'});
+const { ROPSTEN_PRIVATE_KEY, RINKEBY_PRIVATE_KEY, ETHERSCAN_APIKEY } = process.env;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -25,7 +27,7 @@ task("deploy-testnets", "Deploys contract on a provided network")
   .setAction(async (taskArguments, hre, runSuper) => {
       const deployBookLibraryContract = require("./scripts/deploy-testnets");
       await deployBookLibraryContract(taskArguments);
-      await hre.run('verify');
+      //await hre.run('verify');
 });
 
 subtask("print", "Prints a message")
@@ -34,14 +36,14 @@ subtask("print", "Prints a message")
     console.log(taskArgs.message);
 });
 
-subtask("verify", "Verifies with etherscan")
-  .setAction(async () => {
-    await hre.run("verify:verify", {
-        address: bookLibraryContract.address,
-        constructorArguments: [
-        ],
-    });
-});
+// subtask("verify", "Verifies with etherscan")
+//   .setAction(async () => {
+//     await hre.run("verify:verify", {
+//         address: bookLibraryContract.address,
+//         constructorArguments: [
+//         ],
+//     });
+// });
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
@@ -53,18 +55,18 @@ subtask("verify", "Verifies with etherscan")
   networks: {
     ropsten: {
       url: "https://ropsten.infura.io/v3/ab0b32b1a6484c3f94a5753a083ddd11",
-      accounts: [`${process.env.ROPSTEN_PRIVATE_KEY}`],     
+      accounts: [`${ROPSTEN_PRIVATE_KEY}`],     
     },
     rinkeby: {
       url: "https://rinkeby.infura.io/v3/ab0b32b1a6484c3f94a5753a083ddd11",
-      accounts: [`${process.env.RINKEBY_PRIVATE_KEY}`],    
+      accounts: [`${RINKEBY_PRIVATE_KEY}`],    
     }
   },
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: {
-      ropsten: `${process.env.ETHERSCAN_APIKEY}`
+      ropsten: `${ETHERSCAN_APIKEY}`
     }
   },
   solidity: {
