@@ -34,6 +34,31 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "title",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "copiesCount",
+								"type": "uint256"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct BookLibrary.Book[]",
+						"name": "books",
+						"type": "tuple[]"
+					}
+				],
+				"name": "LibraryStatus",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "previousOwner",
@@ -185,6 +210,32 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_title",
+						"type": "string"
+					}
+				],
+				"name": "generateIdFromTitle",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllAvailableBooksInLibrary",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "getAllBookIds",
 				"outputs": [
@@ -305,7 +356,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"NEW BookLibrary.sol": "BookLibrary"
+			"TEst.sol": "BookLibrary"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -335,12 +386,12 @@
 				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
 			]
 		},
-		"NEW BookLibrary.sol": {
-			"keccak256": "0x31601eb0b0097171af3dbc6395337062c8b12dd5ccca9d44b6597b78353d877c",
+		"TEst.sol": {
+			"keccak256": "0xcb8d095b4d9daa4c0346ce16912377463d24a3fb90d2df3b3e2ddb84ea4abaac",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://07f57dd2f1c3eb6963f2d99ac438bc70cff2b17bc45c40a9f6ac0148b7b5e5af",
-				"dweb:/ipfs/QmazWmad1FxkqumQgFELframhDzbefBmF5mY4cTStwRkVb"
+				"bzz-raw://9cf93adb229576bf93e007eb5b5ac8c2da90fe06afa24ecdf9dad08e54591705",
+				"dweb:/ipfs/QmfGg3ygdt5hKU5mm1E2JwVU5BVNtMQu9Mjqzh68P5KDEF"
 			]
 		}
 	},

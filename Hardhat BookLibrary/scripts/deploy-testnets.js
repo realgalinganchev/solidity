@@ -14,6 +14,7 @@ async function deployBookLibraryContract() {
     await bookLibraryContract.deployed();
 
     console.log('BookLibrary Contract address: ', bookLibraryContract.address);
+    return bookLibraryContract.address;
 }
   
 module.exports = deployBookLibraryContract;

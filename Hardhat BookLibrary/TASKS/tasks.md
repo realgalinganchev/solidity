@@ -15,7 +15,7 @@ BookLibrary Contract address:  0x5FbDB2315678afecb367f032d93F642f64180aa3
 Done!
 # Add configuration for deployment on Rinkeby. Note and save your deployed contract address.
 Since on Rinkeby was not possible because of network congestion, contract was deployed on Ropsten.
-https://ropsten.etherscan.io/address/0xE21460B65Edb58638c042fbb48eD52D99566E93D#code
+https://ropsten.etherscan.io/address/0xb60A0012C2E0fc9B83ca3C13f279F12F9dA9Ea80#code
 # Implement testing scenarios for the Book Library contract
 see /test/library-test.js
 # Think about more use cases to cover in the tests
