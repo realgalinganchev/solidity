@@ -17,7 +17,7 @@ async function deployElectionContract() {
     
     console.log('Waiting for USElection deployment...');
     await usElectionContract.deployed();
-    //0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+    //0xdD184C29540EE4FE6d249C526280609e8dC8c366
     console.log('USElection Contract address: ', usElectionContract.address);
     console.log('Done!');
 

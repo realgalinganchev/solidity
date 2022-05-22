@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract USElection is Ownable {	
-    event LogStateResult(uint8 winner, uint8 stateSeats, string state);
+    event LogStateResult(uint8 indexed winner, uint8 stateSeats, string state);
     event LogElectionEnded(uint winner);
 
     uint8 public constant BIDEN = 1;
