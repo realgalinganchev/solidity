@@ -13,7 +13,7 @@ const run = async function () {
 	// - Creates a new book and adds it to the library - please provide new book name
 
 	const initialCopies = 5
-	const txAddNewBook = await bookLibraryContract.addNewBookAndCopiesCount('War And Peace', initialCopies).catch(err => console.log(err.error))
+	const txAddNewBook = await bookLibraryContract.addNewBookAndCopiesCount('The War Of Art', initialCopies).catch(err => console.log(err.error))
 	const txAddNewBookReceipt = await txAddNewBook.wait().catch(err => console.log(err.error))
 
 	const bookId = txAddNewBookReceipt.events?.filter((x) => { return x.event == "BookStatus" })[0].args.bookId.toString()
