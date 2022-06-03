@@ -2,9 +2,16 @@
 pragma solidity ^0.8.0;
 pragma abicoder v2;
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./LIB.sol";
 
 contract BookLibrary is Ownable {
     event BookStatus(uint256 bookId, string title, uint256 copiesCount);
+
+    LIB public LIBToken;
+
+    constructor() {
+        LIBToken = new LIB();
+    }
 
     struct Book {
         string title;
@@ -12,7 +19,6 @@ contract BookLibrary is Ownable {
     }
 
     uint256[] public bookIds;
-    mapping(uint256 => bool) public alreadyAddedToLibrary;
     mapping(uint256 => Book) public Library;
     mapping(address => mapping(uint256 => bool)) private hasCurrentlyBorrowed;
     mapping(address => mapping(uint256 => bool)) private hasBorrowedBookOnce;
@@ -26,6 +32,10 @@ contract BookLibrary is Ownable {
         _;
     }
 
+    function mint() public payable {
+        LIBToken.mint(msg.sender, msg.value);
+    }
+
     function generateIdFromTitle(string memory _title)
         public
         pure
@@ -37,22 +47,24 @@ contract BookLibrary is Ownable {
     function addNewBookAndCopiesCount(
         string memory _title,
         uint256 _copiesCount
-    ) public onlyOwner {
+    ) public onlyOwner 
+    {
         require(
             _copiesCount > 0,
             "You have to add at least one copy of the book in the library!"
         );
         uint256 bookId = generateIdFromTitle(_title);
         require(
-            !alreadyAddedToLibrary[bookId],
+            bytes(Library[bookId].title).length == 0,
             "You have already added this book in the library, try using addCopiesToExistingBook!"
         );
         bookIds.push(bookId);
         Library[bookId] = Book(_title, _copiesCount);
-        alreadyAddedToLibrary[bookId] = true;
         emit BookStatus(bookId, _title, _copiesCount);
+        // return bookId;
     }
 
+    //external
     function addCopiesToExistingBook(string memory _title, uint256 _copiesCount)
         public
         onlyOwner
@@ -64,14 +76,34 @@ contract BookLibrary is Ownable {
         uint256 bookId = generateIdFromTitle(_title);
         Library[bookId].copiesCount += _copiesCount;
         emit BookStatus(bookId, _title, Library[bookId].copiesCount);
+        // return bookId;
     }
 
-    function borrowBook(uint256 _bookId) public atLeastOneCopy(_bookId) {
+    function borrowBook(
+        uint256 _bookId,
+        uint256 value,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) public atLeastOneCopy(_bookId) {
         require(
             !hasCurrentlyBorrowed[msg.sender][_bookId],
             "You have already borrowed a copy of the book, please return it first!"
         );
         hasCurrentlyBorrowed[msg.sender][_bookId] = true;
+
+        LIBToken.permit(
+            msg.sender,
+            address(this),
+            value,
+            deadline,
+            v,
+            r,
+            s
+        );
+        LIBToken.transferFrom(msg.sender, address(this), value); //borrowPrice?
+
         Library[_bookId].copiesCount--;
         if (!hasBorrowedBookOnce[msg.sender][_bookId]) {
             borrowersAddresses[_bookId].push(msg.sender);
@@ -118,11 +150,7 @@ contract BookLibrary is Ownable {
         return borrowersAddresses[_bookId];
     }
 
-    function getAllBooksInLibrary()
-        public
-        view
-        returns (Book[] memory)
-    {
+    function getAllBooksInLibrary() public view returns (Book[] memory) {
         Book[] memory books = new Book[](bookIds.length);
         for (uint256 index = 0; index < bookIds.length; index++) {
             books[index] = Library[bookIds[index]];
