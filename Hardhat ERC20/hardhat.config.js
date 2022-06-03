@@ -26,6 +26,27 @@ task("deployETHWrapper", "Deploys the contract", async (taskArgs, hre) => {
   await ETHWrapperContract.deployed();
 
   console.log("ETHWrapperContract deployed to address:", ETHWrapperContract.address);
+
+  // const WETHFactory = await hre.ethers.getContractFactory("WETH");
+  // const WETHContract = await WETHFactory.deploy();
+  // console.log('Waiting for WETHContract deployment...');
+  // await WETHContract.deployed();
+  // console.log("WETHContract deployed to address:", WETHContract.address);
+});
+
+task("deployLIBDeployer", "Deploys the contract", async (taskArgs, hre) => {
+  const LIBDeployerFactory = await ethers.getContractFactory("LIBDeployer"); // 
+  const LIBDeployerContract = await LIBDeployerFactory.deploy();
+  console.log('Waiting for LIBDeployerContract deployment...');
+  await LIBDeployerContract.deployed();
+
+  console.log("LIBDeployerContract deployed to address:", LIBDeployerContract.address);
+
+  // const WETHFactory = await hre.ethers.getContractFactory("WETH");
+  // const WETHContract = await WETHFactory.deploy();
+  // console.log('Waiting for WETHContract deployment...');
+  // await WETHContract.deployed();
+  // console.log("WETHContract deployed to address:", WETHContract.address);
 });
 
 // You need to export an object to set up your config
@@ -34,11 +55,17 @@ task("deployETHWrapper", "Deploys the contract", async (taskArgs, hre) => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
- module.exports = {
+module.exports = {
+  defaultNetwork: "local",
   networks: {
     ropsten: {
       url: "https://ropsten.infura.io/v3/ab0b32b1a6484c3f94a5753a083ddd11",
-      accounts: ["0eda082d0c0271f64c8356581772ae996a299d7568fc3ddb52a869975dfb40c0"],     
+      accounts: ["0eda082d0c0271f64c8356581772ae996a299d7568fc3ddb52a869975dfb40c0"],
+    },
+    local: {
+      url: "http://127.0.0.1:8545/",
+      gas: 8000000,
+      gasPrice: 30000000000,
     }
   },
   solidity: {
